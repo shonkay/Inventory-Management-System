@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Inventory_Management_System.ViewModels.InventoryViewModel>
+
+@{
+    ViewData["Title"] = "AdminView";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h2>Inventories</h2>
+
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+    <div class="form-group">
+        <div class="col-sm-2 col-sm-10">
+            <button class="btn btn-info" id="AddInventory">Add Inventory</button>
+        </div>
+    </div>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InventoryItem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WareHouse)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InventoryItem)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WareHouse)
+                </td>
+                <td>
+                    <a id="itemId" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal " id="AddInventoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" style="width:1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel" style="justify-content: center">Add New Inventory</h4>
+            </div>
+
+            <div class="modal-body">
+                <div style="background-color:ivory;overflow-y: scroll;height: 400px; padding-left:25px;">
+                    @using (Html.BeginForm("", "", FormMethod.Post, new { id = "inventoryForm" }))
+                    {
+                        <form class="form-horizontal">
+
+                            <div style="height: 400px;">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-10 col-lg-8 col-md-8" for="email">Inventory Item:</label>
+                                    <div class="col-sm-12 col-lg-8 col-md-12" style="padding-bottom:10px">
+                                        <input type="text" class="form-control" id="inventoryItem" placeholder="Enter Inventory Item Here">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-10 col-lg-8 col-md-8" for="pwd">Employee Name:</label>
+                                    <div class="col-sm-8 col-lg-8 col-md-8" style="padding-bottom:10px">
+                                        <input type="text" class="form-control" id="employeeName" placeholder="Enter Employee Item Is Assigned To">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-10 col-lg-8 col-md-8" for="pwd">WareHouse:</label>
+                                    <div class="col-sm-8 col-lg-8 col-md-8" style="padding-bottom:10px">
+                                        <input type="text" class="form-control" id="wareHouseName" placeholder="Enter Which WareHouse Item Is Stored">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-10 col-lg-8 col-md-8" for="pwd">Employee Role:</label>
+                                    <div class="col-sm-8 col-lg-8 col-md-8" style="padding-bottom:10px">
+                                        <select class="form-control" name="EmployeeRole" id="employeeRole">
+                                            <option value="Admin">Admin</option>
+                                            <option value="Manager">Manager</option>
+                                            <option value="Staff">Manager</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    }
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="acceptButton">Add New</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="addNewInventory" style="display:none" data-request-url="@Url.Action("AddNewInventory", "Home")"></div>
+
+@section scripts{
+    <script src="~/js/inventory.js"></script>
+}
